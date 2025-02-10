@@ -3,10 +3,11 @@ import { Sandbox } from './components/sandbox'
 import { Container } from './components/container'
 import Download from './components/download'
 import Chat from './components/chat'
-import ChatGPTRequest from './components/gpt'
 import Weather from './components/weather'
 import ScreenShare from './components/screenShare'
+import VideoChat from './components/videoChat'
 
+window.global = window;
 function App() {
 
   return (
@@ -23,12 +24,13 @@ function App() {
       <Container>
         <Weather></Weather>
       </Container>
-      <Container>
-        <ChatGPTRequest></ChatGPTRequest>
-      </Container>
 
       <Container>
         <ScreenShare></ScreenShare>
+      </Container>
+
+      <Container>
+        <VideoChat></VideoChat>
       </Container>
 
     </>

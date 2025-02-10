@@ -8,7 +8,7 @@ export default function Chat() {
     const chatTextareaRef = useRef(null);
 
     useEffect(() => {
-        ws.current = new WebSocket('ws://192.168.0.101:8080');
+        ws.current = new WebSocket('ws://localhost:8080'); //change to your server IP
         ws.current.onmessage = event => {
             const reader = new FileReader();
             reader.onload = () => {
