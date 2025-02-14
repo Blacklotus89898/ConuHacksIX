@@ -1,6 +1,52 @@
 import bridgeService from '../services/bridge';
+import { useRef, useState, useEffect } from 'react';
 
 export function Sandbox() {
+    const canvasRef = useRef(null);
+    const [isDrawing, setIsDrawing] = useState(false);
+
+    // useEffect(() => {
+    //     const canvas = canvasRef.current;
+    //     const ctx = canvas.getContext('2d');
+    //     const resizeCanvas = () => {
+    //         const ratio = window.devicePixelRatio || 1;
+    //         canvas.width = document.body.clientWidth * ratio;
+    //         canvas.height = document.body.clientHeight * ratio;
+    //         canvas.style.width = `${document.body.clientWidth}px`;
+    //         canvas.style.height = `${document.body.clientHeight}px`;
+    //         ctx.scale(ratio, ratio);
+    //     };
+    //     resizeCanvas();
+    //     window.addEventListener('resize', resizeCanvas);
+
+    //     return () => {
+    //         window.removeEventListener('resize', resizeCanvas);
+    //     };
+    // }, []);
+
+    const startDrawing = (e) => {
+        const canvas = canvasRef.current;
+        const ctx = canvas.getContext('2d');
+        ctx.beginPath();
+        ctx.moveTo(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
+        setIsDrawing(true);
+    };
+
+    const draw = (e) => {
+        if (!isDrawing) return;
+        const canvas = canvasRef.current;
+        const ctx = canvas.getContext('2d');
+        ctx.lineTo(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
+        ctx.stroke();
+    };
+
+    const stopDrawing = () => {
+        const canvas = canvasRef.current;
+        const ctx = canvas.getContext('2d');
+        ctx.closePath();
+        setIsDrawing(false);
+    };
+
     const handleClick = async () => {
         console.log('Button clicked');
         try {
@@ -15,7 +61,109 @@ export function Sandbox() {
         <div>
             <h1>Sandbox</h1>
             <button onClick={handleClick}>Click me</button>
-            <button href='../assets/test.csv' download>Click to download</button>
+            <a href='../assets/test.csv' download>Click to download</a>
+            {/* <canvas
+                ref={canvasRef}
+                style={{ 
+                    position: 'absolute', 
+                    top: 0, 
+                    left: 0, 
+                    width: '100%', 
+                    height: '100%', 
+                    border: '1px solid black', 
+                    backgroundColor: 'transparent' 
+                }}
+                onMouseDown={startDrawing}
+                onMouseMove={draw}
+                onMouseUp={stopDrawing}
+                onMouseOut={stopDrawing}
+            ></canvas> */}
         </div>
     );
 }
+
+
+// V1
+// import bridgeService from '../services/bridge';
+// import { useRef, useState, useEffect } from 'react';
+
+// export function Sandbox() {
+//     const canvasRef = useRef(null);
+//     const [isDrawing, setIsDrawing] = useState(false);
+
+//     useEffect(() => {
+//         const canvas = canvasRef.current;
+//         const ctx = canvas.getContext('2d');
+//         const resizeCanvas = () => {
+//             const ratio = window.devicePixelRatio || 1;
+//             canvas.width = window.innerWidth * ratio;
+//             canvas.height = window.innerHeight * ratio;
+//             canvas.style.width = `${window.innerWidth}px`;
+//             canvas.style.height = `${window.innerHeight}px`;
+//             ctx.scale(ratio, ratio);
+//         };
+//         resizeCanvas();
+//         window.addEventListener('resize', resizeCanvas);
+
+//         return () => {
+//             window.removeEventListener('resize', resizeCanvas);
+//         };
+//     }, []);
+
+//     const startDrawing = (e) => {
+//         const canvas = canvasRef.current;
+//         const ctx = canvas.getContext('2d');
+//         ctx.beginPath();
+//         ctx.moveTo(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
+//         setIsDrawing(true);
+//     };
+
+//     const draw = (e) => {
+//         if (!isDrawing) return;
+//         const canvas = canvasRef.current;
+//         const ctx = canvas.getContext('2d');
+//         ctx.lineTo(e.nativeEvent.offsetX, e.nativeEvent.offsetY);
+//         ctx.stroke();
+//     };
+
+//     const stopDrawing = () => {
+//         const canvas = canvasRef.current;
+//         const ctx = canvas.getContext('2d');
+//         ctx.closePath();
+//         setIsDrawing(false);
+//     };
+
+//     const handleClick = async () => {
+//         console.log('Button clicked');
+//         try {
+//             const data = await bridgeService.getBridges();
+//             console.log(data);
+//         } catch (error) {
+//             console.error('Error fetching bridges:', error);
+//         }
+//     };
+
+//     return (
+//         <div>
+//             <h1>Sandbox</h1>
+//             <button onClick={handleClick}>Click me</button>
+//             <a href='../assets/test.csv' download>Click to download</a>
+//             <canvas
+//                 ref={canvasRef}
+//                 style={{ 
+//                     position: 'fixed', 
+//                     top: 0, 
+//                     left: 0, 
+//                     width: '100vw', 
+//                     height: '100vh', 
+//                     border: '1px solid black', 
+//                     backgroundColor: 'transparent' 
+//                 }}
+//                 onMouseDown={startDrawing}
+//                 onMouseMove={draw}
+//                 onMouseUp={stopDrawing}
+//                 onMouseOut={stopDrawing}
+//             ></canvas>
+//         </div>
+//     );
+// }
