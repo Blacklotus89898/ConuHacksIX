@@ -15,7 +15,6 @@ export function Sandbox() {
         <div>
             <h1>Sandbox</h1>
             <button onClick={handleClick}>Click me</button>
-            <button href='../assets/test.csv' download>Click to download</button>
         </div>
     );
 }

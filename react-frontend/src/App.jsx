@@ -1,11 +1,12 @@
 import './App.css'
 import { Sandbox } from './components/sandbox'
 import { Container } from './components/container'
-import Download from './components/download'
+import JSONCOMPONENT from './components/json'
 import Chat from './components/chat'
 import Weather from './components/weather'
 import ScreenShare from './components/screenShare'
 import VideoChat from './components/videoChat'
+import { CSV } from './components/csv'
 
 window.global = window;
 function App() {
@@ -16,7 +17,10 @@ function App() {
         <Sandbox></Sandbox>
       </Container>
       <Container>
-        <Download></Download>
+        <CSV></CSV>
+      </Container>
+      <Container>
+        <JSONCOMPONENT></JSONCOMPONENT>
       </Container>
       <Container>
         <Chat></Chat>

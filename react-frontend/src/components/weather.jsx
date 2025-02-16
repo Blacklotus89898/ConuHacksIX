@@ -36,19 +36,41 @@ function Weather() {
     };
 
     return (
-        <>
+        <div style={{ fontFamily: 'Arial, sans-serif', padding: '20px' }}>
             <h2>Weather Information for {location}</h2>
+            <div style={{ marginBottom: '20px' }}>
+                <input
+                    type="text"
+                    placeholder="Enter location"
+                    value={newLocation}
+                    onChange={e => setNewLocation(e.target.value)}
+                    onKeyDown={e => e.key === 'Enter' && handleConfirm()}
+                    style={{
+                        padding: '10px',
+                        borderRadius: '5px',
+                        border: '1px solid #ccc',
+                        marginRight: '10px'
+                    }}
+                />
+                <button
+                    onClick={handleConfirm}
+                    style={{
+                        padding: '10px 20px',
+                        borderRadius: '5px',
+                        border: 'none',
+                        backgroundColor: '#007bff',
+                        color: '#fff',
+                        cursor: 'pointer',
+                        transition: 'background-color 0.3s'
+                    }}
+                    onMouseOver={(e) => e.target.style.backgroundColor = '#0056b3'}
+                    onMouseOut={(e) => e.target.style.backgroundColor = '#007bff'}
+                >
+                    Confirm
+                </button>
+            </div>
 
-            <input
-                type="text"
-                placeholder="Enter location"
-                value={newLocation}
-                onChange={e => setNewLocation(e.target.value)}
-                onKeyDown={e => e.key === 'Enter' && handleConfirm()}
-            />
-            <button onClick={handleConfirm}>Confirm</button>
-
-            <div>
+            <div style={{ marginBottom: '20px' }}>
                 <label htmlFor="numDays">Number of days to predict: {numDays}</label>
                 <input
                     type="range"
@@ -57,6 +79,7 @@ function Weather() {
                     max="3"
                     value={numDays}
                     onChange={e => setNumDays(Number(e.target.value))}
+                    style={{ marginLeft: '10px' }}
                 />
             </div>
 
@@ -64,11 +87,17 @@ function Weather() {
             {weatherData.length > 0 && (
                 <div>
                     <h3>Weather Forecast</h3>
-                    <div style={{ display: 'flex' }}>
+                    <div style={{ display: 'flex', gap: '20px' }}>
                         {weatherData.map((day, index) => (
-                            <Container key={index}>
+                            <Container key={index} style={{
+                                backgroundColor: '#f0f0f0',
+                                padding: '10px',
+                                borderRadius: '5px',
+                                boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+                                width: '200px'
+                            }}>
                                 <div>
-                                    <h4>Day {index + 1}</h4>
+                                    <h4 style={{ margin: '0 0 10px 0' }}>Day {index + 1}</h4>
                                     <p>Date: {day.date}</p>
                                     <p>Max Temp: {day.maxtempC}°C</p>
                                     <p>Min Temp: {day.mintempC}°C</p>
@@ -82,7 +111,7 @@ function Weather() {
 
             {/* Loading state or error handling */}
             {weatherData.length === 0 && <p>Loading weather data...</p>}
-        </>
+        </div>
     );
 }
 

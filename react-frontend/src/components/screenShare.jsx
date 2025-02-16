@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import Peer from 'peerjs';
 
-// Working?
 function ScreenShare() {
   // States to manage peer ID, remote peer ID input, and references for video elements
   const [peerId, setPeerId] = useState('');
@@ -17,6 +16,7 @@ function ScreenShare() {
     // On Peer connection open, set the peer ID
     peer.on('open', (id) => {
       setPeerId(id);
+      setRemotePeerIdValue(id);  // Directly input the peer ID into the field
     });
 
     // Handling incoming calls
@@ -75,24 +75,85 @@ function ScreenShare() {
   };
 
   return (
-    <div className="ScreenShare">
-      <h1>Current user ID is: {peerId}</h1>
-      <input 
-        type="text" 
-        value={remotePeerIdValue} 
-        onChange={(e) => setRemotePeerIdValue(e.target.value)} 
-        placeholder="Enter Remote Peer ID"
-      />
-      <button onClick={() => call(remotePeerIdValue)} disabled={!remotePeerIdValue}>
+    <div style={{
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      fontFamily: 'Arial, sans-serif',
+      backgroundColor: '#f9f9f9',
+      padding: '20px',
+      borderRadius: '10px',
+      boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+      width: '80%',
+      margin: 'auto',
+      marginTop: '20px'
+    }}>
+      <h1 style={{ marginBottom: '20px' }}>Screen Share</h1>
+      <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        marginBottom: '20px',
+        gap: '10px'
+      }}>
+        <label htmlFor="peerIdInput" style={{ fontSize: '16px' }}>Your Peer ID:</label>
+        <input
+          id="peerIdInput"
+          type="text"
+          value={peerId}
+          readOnly
+          style={{
+            padding: '10px',
+            borderRadius: '5px',
+            border: '1px solid #ccc',
+            width: '60%'
+          }}
+        />
+      </div>
+      <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        marginBottom: '20px',
+        gap: '10px'
+      }}>
+        <label htmlFor="remotePeerIdInput" style={{ fontSize: '16px' }}>Remote Peer ID:</label>
+        <input
+          id="remotePeerIdInput"
+          type="text"
+          value={remotePeerIdValue}
+          onChange={(e) => setRemotePeerIdValue(e.target.value)}
+          placeholder="Enter Remote Peer ID"
+          style={{
+            padding: '10px',
+            borderRadius: '5px',
+            border: '1px solid #ccc',
+            width: '60%'
+          }}
+        />
+      </div>
+      <button
+        onClick={() => call(remotePeerIdValue)}
+        disabled={!remotePeerIdValue}
+        style={{
+          padding: '10px 20px',
+          borderRadius: '5px',
+          border: 'none',
+          backgroundColor: remotePeerIdValue ? '#007bff' : '#ccc',
+          color: '#fff',
+          cursor: remotePeerIdValue ? 'pointer' : 'not-allowed',
+          transition: 'background-color 0.3s'
+        }}
+        onMouseOver={(e) => remotePeerIdValue && (e.target.style.backgroundColor = '#0056b3')}
+        onMouseOut={(e) => remotePeerIdValue && (e.target.style.backgroundColor = '#007bff')}
+      >
         Share Screen
       </button>
-      <div>
+      <div style={{ marginTop: '20px', width: '100%', textAlign: 'center' }}>
         <h2>Your Screen</h2>
-        <video ref={currentUserVideoRef} autoPlay playsInline style={{ width: "300px", border: "1px solid black" }} />
+        <video ref={currentUserVideoRef} autoPlay playsInline style={{ width: '80%', border: '1px solid black', borderRadius: '5px', marginBottom: '20px' }} />
       </div>
-      <div>
+      <div style={{ width: '100%', textAlign: 'center' }}>
         <h2>Remote Video</h2>
-        <video ref={remoteVideoRef} autoPlay playsInline style={{ width: "300px", border: "1px solid black" }} />
+        <video ref={remoteVideoRef} autoPlay playsInline style={{ width: '80%', border: '1px solid black', borderRadius: '5px' }} />
       </div>
     </div>
   );
